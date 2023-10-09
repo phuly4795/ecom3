@@ -8,11 +8,12 @@
 
     <title>INSPINIA | Login</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
 </head>
 
@@ -30,12 +31,19 @@
                 <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
             </p>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="index.html">
+            <form class="m-t" role="form" method="post" action="{{ route('login.login') }}">
+                @csrf
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Username" required="">
+                    <input type="email" class="form-control" name="email" placeholder="Email">
+                    @if ($errors->has('email'))
+                        <span class="error-message"> * {{ $errors->first('email') }}</span>
+                    @endif
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required="">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                    @if ($errors->has('password'))
+                        <span class="error-message"> * {{ $errors->first('password') }}</span>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
@@ -48,8 +56,8 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 </body>
 
