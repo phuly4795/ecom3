@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function(){
-    Route::get('/', function () {
-        return view('welcome');
-    });    
+Route::prefix('/admin')->group(function(){
+    
+    // Route::get('/', function () {
+    //     return view('welcome');
+    // });    
+
+    Route::get('/', [AuthController::class, 'login']);    
+    
 });
 
 
