@@ -31,10 +31,10 @@
                 <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
             </p>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" method="post" action="{{ route('login.login') }}">
+            <form class="m-t" role="form" method="post" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email">
+                    <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
                     @if ($errors->has('email'))
                         <span class="error-message"> * {{ $errors->first('email') }}</span>
                     @endif

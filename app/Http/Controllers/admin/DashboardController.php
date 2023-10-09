@@ -9,12 +9,10 @@ class DashboardController extends Controller
 {
     public function __construct()
     {
-        
     }
 
     public function index()
     {
-        dd(2);
+        return view('admin.dashboard.home.index');
     }
-
 }
