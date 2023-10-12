@@ -27,7 +27,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard.index')->with('success', 'Đăng nhập thành công');
+            return redirect()->route('dashboard')->with('success', 'Đăng nhập thành công');
         }
 
         return redirect()->route('login.index')->with('error', 'Email hoặc password nhập sai!');
