@@ -86,3 +86,11 @@
   font-size: 15px;
   color: red;
 }
+
+.warning {
+  background-color: #F8AC59 !important;
+}
+
+.active-bg {
+  background-color: bisque !important;
+}

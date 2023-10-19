@@ -2,17 +2,16 @@
 
 namespace App\Repositories\Admin;
 
-use App\Models\User;
+use App\Models\UserCatalogue;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-class UserRepositiory extends BaseRepository
+class UserCatalogueRepositiory extends BaseRepository
 {
     protected $model;
 
-    public function __construct(User $model)
+    public function __construct(UserCatalogue $model)
     {
         $this->model = $model;
     }
@@ -25,10 +24,16 @@ class UserRepositiory extends BaseRepository
 
         if (!empty($input['keyword'])) {
             $query->where('name', 'like', "%{$input['keyword']}%")
-                ->orWhere('email', 'like', "%{$input['keyword']}%")
-                ->orWhere('phone', 'like', "%{$input['keyword']}%")
-                ->orWhere('address', 'like', "%{$input['keyword']}%");
+                ->orWhere('code', 'like', "%{$input['keyword']}%")
+                ->orWhere('description', 'like', "%{$input['keyword']}%");
         }
+
+        if (!empty($with)) {
+            foreach ($with as $count) {
+                $query->withCount($count);
+            }
+        }
+
 
         if ($limit) {
             if ($limit === 1) {
@@ -47,7 +52,7 @@ class UserRepositiory extends BaseRepository
         DB::beginTransaction();
         try {
             $input = $request->except(['_token', 're_password']);
-            $input['password'] = Hash::make($input['password']);
+            $input['code'] = Str::slug($input['name']);
             $user = $this->model->create($input);
             DB::commit();
             return true;
@@ -63,6 +68,7 @@ class UserRepositiory extends BaseRepository
         DB::beginTransaction();
         try {
             $input = $request->except(['_token', '_method']);
+            $input['code'] = Str::slug($input['name']);
             $user = $this->update($id, $input);
             DB::commit();
             return true;
@@ -92,8 +98,8 @@ class UserRepositiory extends BaseRepository
 
         DB::beginTransaction();
         try {
-            $user = $this->findById(['*'], [], $id);       
-            $user->is_active = ($user->is_active == 1 ) ? 0 : 1; 
+            $user = $this->findById(['*'], [], $id);
+            $user->is_active = ($user->is_active == 1) ? 0 : 1;
             $user->save();
             DB::commit();
             return true;
@@ -104,21 +110,29 @@ class UserRepositiory extends BaseRepository
         }
     }
 
-    public function updateStatusMultiple($input)
+    public function listCatalogue()
     {
-        DB::beginTransaction();
-        try {
-            $array_id = $input['id'];
-            $field = $input['field'];
-            $value = $input['value'];
-            $payload[$field] = ($value == 1 ) ? 0 : 1; 
-            $user = $this->updateByWhereIn('id', $array_id, $payload); 
-            DB::commit();
-            return true;
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            dd($th);
-            return false;
-        }
+        $listCatalogue =   $this->model->all();
+
+        return $listCatalogue;
+
     }
+
+    // public function updateStatusMultiple($input)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+    //         $array_id = $input['id'];
+    //         $field = $input['field'];
+    //         $value = $input['value'];
+    //         $payload[$field] = ($value == 1 ) ? 0 : 1; 
+    //         $user = $this->updateByWhereIn('id', $array_id, $payload); 
+    //         DB::commit();
+    //         return true;
+    //     } catch (\Throwable $th) {
+    //         DB::rollBack();
+    //         dd($th);
+    //         return false;
+    //     }
+    // }
 }

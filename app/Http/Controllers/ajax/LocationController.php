@@ -28,10 +28,10 @@ class LocationController extends Controller
         $html = '';
         if ($input['target'] == 'district') {
             $provinces = $this->ProvinceRepository->findByCode(['code', 'name'], ['district'], 'code', $input['data']['location_code']);
-            $html = $this->renderHTML($provinces->district);
+            $html = $this->renderHTML($provinces->district, $input['target']);
         } else if ($input['target'] == 'ward') {
             $districts =  $this->DistrictRepository->findByCode(['code', 'name'], ['ward'], 'code', $input['data']['location_code']);
-            $html = $this->renderHTML($districts->ward);
+            $html = $this->renderHTML($districts->ward, $input['target']);
         };
 
         $response = [
@@ -40,11 +40,17 @@ class LocationController extends Controller
         return response()->json($response);
     }
 
-    public function renderHTML($districts)
+    public function renderHTML($locals, $target)
     {
-        $html = '<option value = "0" >[Chọn Quận/Huyện]</option>';
-        foreach ($districts as $district) {
-            $html .= '<option value = "' . $district['code'] . '" >' . $district['name'] . '</option>';
+        if ($target == 'district') {
+            $html = '<option value = "0" >[Chọn Quận/Huyện]</option>';
+        }
+        else if ($target == 'ward') {
+            $html = '<option value = "0" >[Chọn Phường/Xã]</option>';
+        }
+
+        foreach ($locals as $local) {
+            $html .= '<option value = "' . $local['code'] . '" >' . $local['full_name'] . '</option>';
         }
 
         return $html;

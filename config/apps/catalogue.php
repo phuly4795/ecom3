@@ -2,16 +2,16 @@
 
 return [
     'index' => [
-        'title' => 'QL thành viên',
-        'tableHeading' => 'Danh sách thành viên',
+        'title' => 'QL nhóm thành viên',
+        'tableHeading' => 'Danh sách nhóm thành viên',
         'modalHeading' => 'Xác nhận xóa thành viên',
     ],
     'create' => [
-        'title' => 'Thêm mới thành viên',
+        'title' => 'Thêm mới nhóm thành viên',
         'info' => 'Thông tin chung',
     ],
     'update' => [
-        'title' => 'Cập nhật thành viên',
+        'title' => 'Cập nhật nhóm thành viên',
         'info' => 'Thông tin chung',
     ],
 ];
