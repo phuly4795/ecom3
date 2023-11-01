@@ -37,7 +37,9 @@ class UserController extends Controller
 
         $config = config('apps.user.index');
 
-        return view('admin.dashboard.user.user.index', compact('listUser', 'config'));
+        $listCatalogue = $this->UserCatalogueRepositiory->listCatalogue();
+
+        return view('admin.dashboard.user.user.index', compact('listUser', 'config', 'listCatalogue'));
     }
 
     public function create()

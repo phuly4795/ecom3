@@ -86,8 +86,8 @@ abstract class BaseRepository
     }
 
 
-    public function updateByWhereIn($column, $array, $payload){
+    public function updateByWhereIn($column, $array, $payload)
+    {
         return $this->model->whereIn($column, $array)->update($payload);
     }
-
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\LanguageController;
 use App\Http\Controllers\admin\UserCatalogueController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\ajax\LocationController;
@@ -46,6 +47,28 @@ Route::prefix('/admin')->group(function () {
             Route::delete('/delete-user/{id}', [UserCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('user.catalogue.delete');
             Route::get('/update-status-user', [UserCatalogueController::class, 'updateStatus'])->name('user.catalogue.updateStatus');
             Route::get('/update-status-multiple', [UserCatalogueController::class, 'updateStatusMultiple'])->name('user.catalogue.updateStatusMultiple');
+        });
+
+        Route::prefix('/post')->group(function () {
+            Route::get('/', [UserCatalogueController::class, 'index'])->name('post');
+            Route::get('/create-user', [UserCatalogueController::class, 'create'])->name('post.create');
+            Route::post('/create-user', [UserCatalogueController::class, 'store'])->name('post.store');
+            Route::get('/update-user/{id}', [UserCatalogueController::class, 'edit'])->where(['id' => '[0-9]+'])->name('post.edit');
+            Route::put('/update-user/{id}', [UserCatalogueController::class, 'update'])->where(['id' => '[0-9]+'])->name('post.update');
+            Route::delete('/delete-user/{id}', [UserCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post.delete');
+            Route::get('/update-status-user', [UserCatalogueController::class, 'updateStatus'])->name('post.updateStatus');
+            Route::get('/update-status-multiple', [UserCatalogueController::class, 'updateStatusMultiple'])->name('post.updateStatusMultiple');
+        });
+
+        Route::prefix('/language')->group(function () {
+            Route::get('/', [LanguageController::class, 'index'])->name('language');
+            Route::get('/create-language', [LanguageController::class, 'create'])->name('language.create');
+            Route::post('/create-language', [LanguageController::class, 'store'])->name('language.store');
+            Route::get('/update-language/{id}', [LanguageController::class, 'edit'])->where(['id' => '[0-9]+'])->name('language.edit');
+            Route::put('/update-language/{id}', [LanguageController::class, 'update'])->where(['id' => '[0-9]+'])->name('language.update');
+            Route::delete('/delete-language/{id}', [LanguageController::class, 'delete'])->where(['id' => '[0-9]+'])->name('language.delete');
+            Route::get('/update-status-language', [LanguageController::class, 'updateStatus'])->name('language.updateStatus');
+            Route::get('/update-status-multiple', [LanguageController::class, 'updateStatusMultiple'])->name('language.updateStatusMultiple');
         });
     });
 

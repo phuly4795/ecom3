@@ -21,13 +21,19 @@ class UserRepositiory extends BaseRepository
     public function search($input = [], $with = [], $limit = null)
     {
         $query = $this->make($with);
-        // $this->sortBuilder($query, $input);
+        $input['sort'] = ['created_at' => 'DESC'];
+        $this->sortBuilder($query, $input['sort']);
 
         if (!empty($input['keyword'])) {
             $query->where('name', 'like', "%{$input['keyword']}%")
                 ->orWhere('email', 'like', "%{$input['keyword']}%")
                 ->orWhere('phone', 'like', "%{$input['keyword']}%")
-                ->orWhere('address', 'like', "%{$input['keyword']}%");
+                ->orWhere('address', 'like', "%{$input['keyword']}%")
+                ->orWhere('user_catalogue_id', "{$input['user_catalogue_id']}");
+        }
+
+        if (!empty($input['user_catalogue_id'])) {
+            $query->Where('user_catalogue_id', "{$input['user_catalogue_id']}");
         }
 
         if ($limit) {
@@ -92,8 +98,8 @@ class UserRepositiory extends BaseRepository
 
         DB::beginTransaction();
         try {
-            $user = $this->findById(['*'], [], $id);       
-            $user->is_active = ($user->is_active == 1 ) ? 0 : 1; 
+            $user = $this->findById(['*'], [], $id);
+            $user->is_active = ($user->is_active == 1) ? 0 : 1;
             $user->save();
             DB::commit();
             return true;
@@ -111,8 +117,8 @@ class UserRepositiory extends BaseRepository
             $array_id = $input['id'];
             $field = $input['field'];
             $value = $input['value'];
-            $payload[$field] = ($value == 1 ) ? 0 : 1; 
-            $user = $this->updateByWhereIn('id', $array_id, $payload); 
+            $payload[$field] = ($value == 1) ? 0 : 1;
+            $user = $this->updateByWhereIn('id', $array_id, $payload);
             DB::commit();
             return true;
         } catch (\Throwable $th) {

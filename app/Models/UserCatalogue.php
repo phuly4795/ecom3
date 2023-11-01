@@ -15,11 +15,12 @@ class UserCatalogue extends Model
         'code',
         'description',
         'is_active',
+        'created_by'
     ];
 
 
     public function user() {
-        return $this->hasMany(User::class, 'user_catalogue_id', 'id');
+        return $this->hasMany(User::class);
     }
 
 }

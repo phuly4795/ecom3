@@ -53,6 +53,7 @@ class UserCatalogueRepositiory extends BaseRepository
         try {
             $input = $request->except(['_token', 're_password']);
             $input['code'] = Str::slug($input['name']);
+            $input['created_by'] = auth()->user()->id;
             $user = $this->model->create($input);
             DB::commit();
             return true;
@@ -98,9 +99,16 @@ class UserCatalogueRepositiory extends BaseRepository
 
         DB::beginTransaction();
         try {
-            $user = $this->findById(['*'], [], $id);
-            $user->is_active = ($user->is_active == 1) ? 0 : 1;
-            $user->save();
+            $userCatalogue = $this->findById(['*'], ['user'], $id);
+            $userCatalogue->is_active = ( $userCatalogue->is_active == 1 ) ? 0 : 1;
+            $userCatalogue->save();
+
+            $users = $userCatalogue->user;
+            foreach ($users as $user) {
+                $user->is_active = ( $user->is_active == 1 ) ? 0 : 1;
+                $user->save();
+            }
+
             DB::commit();
             return true;
         } catch (\Throwable $th) {
@@ -115,7 +123,6 @@ class UserCatalogueRepositiory extends BaseRepository
         $listCatalogue =   $this->model->all();
 
         return $listCatalogue;
-
     }
 
     // public function updateStatusMultiple($input)

@@ -1,3 +1,7 @@
+@php
+    $segment = request()->segment(2);
+@endphp
+
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -6,8 +10,8 @@
                         <img alt="image" class="img-circle" src="{{ asset('img/profil') }}e_small.jpg" />
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{
-                                    Auth::user()->name }}</strong>
+                        <span class="clear"> <span class="block m-t-xs"> <strong
+                                    class="font-bold">{{ Auth::user()->name }}</strong>
                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
                         </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -22,15 +26,30 @@
                     IN+
                 </div>
             </li>
-            <li class="active">
-                <a href="{{ route('user') }}"><i class="fa fa-th-large"></i> <span class="nav-label">QL Thành viên</span>
-                    <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li><a href="{{ route('user') }}">QL thành viên</a></li>
-                    <li><a href="{{ route('user.catalogue') }}">QL nhóm thành viên</a></li>
 
-                </ul>
-            </li>
+            @foreach (config('apps.module.module') as $key => $item)
+            {{-- {{dd( $segment, $item['name'] )}} --}}
+                <li class="{{ (in_array($segment, $item['name'] ) ? 'active' : '') }}">
+                    <a href="">
+                        <i class="{{ $item['icon'] }}"></i>
+                        <span class="nav-label">{{ $item['title'] }} </span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    @if ($item['subModule'])
+                        <ul class="nav nav-second-level">
+                            @foreach ($item['subModule'] as $key => $subModule)
+                                {{-- {{dd($subModule['name'])}} --}}
+                                <li class="{{( !empty($subModule['name'] ) ? ($segment == $subModule['name'] ? 'active' : '' ) : '' )}}">
+                                    <a href="{{ route($subModule['route']) }}">{{ $subModule['title'] }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+
+                </li>
+            @endforeach
+
+
         </ul>
 
     </div>

@@ -34,6 +34,7 @@ class User extends Authenticatable
         'ip',
         'user_agent',
         'is_active',
+        'created_by'
     ];
 
     /**
@@ -56,8 +57,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function UserCatalogue()
-    {
-        return $this->belongsTo(UserCatalogue::class, 'user_catalogue_id', 'id');
-    }
+    // public function UserCatalogue()
+    // {
+    //     return $this->belongsTo(UserCatalogue::class, 'user_catalogue_id', 'id');
+    // }
 }

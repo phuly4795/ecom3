@@ -5,7 +5,7 @@
     <div class="row mt-2">
         <div class="col-lg-12 ">
             <div class="ibox float-e-margins">
-                @include('admin.dashboard.user.catalogue.components.toolbox', [
+                @include('admin.dashboard.language.components.toolbox', [
                     'tableHeading' => $config['tableHeading'],
                 ])
                 <div class="ibox-content">
@@ -13,8 +13,8 @@
                         'modalHeading' => $config['modalHeading'],
                         'status' => 'warning',
                     ])
-                    @include('admin.dashboard.user.catalogue.components.filter')
-                    @include('admin.dashboard.user.catalogue.components.table')
+                    @include('admin.dashboard.language.components.filter')
+                    @include('admin.dashboard.language.components.table')
 
                     {{ $listUser->links() }}
                 </div>
@@ -93,7 +93,7 @@
             const id = _this.attr('data-status');
             console.log(id);
             $.ajax({
-                url: "{{ route('user.catalogue.updateStatus') }}", // Sử dụng biến id trong URL
+                url: "{{ route('user.updateStatus') }}", // Sử dụng biến id trong URL
                 type: 'get',
                 dataType: 'json',
                 data: {
@@ -109,47 +109,47 @@
         });
 
         // update status muti
-        // $('#change-all').on('click', function() {
-        //     let _this = $(this);
-        //     let id = []
-        //     let field = $('.checkboxItem').attr('data-field')
-        //     let valueInput = $('.checkboxItem').attr('data-value')
-        //     $('.checkboxItem').each(function() {
-        //         let checkBox = $(this);
-        //         if (checkBox.prop('checked')) {
-        //             id.push(checkBox.val())
-        //         }
-        //     });
-        //     let option = {
-        //         id: id,
-        //         field: field,
-        //         value: valueInput,
-        //     };
-        //     $.ajax({
-        //         url: "{{ route('user.updateStatusMultiple') }}", // Sử dụng biến id trong URL
-        //         type: 'get',
-        //         dataType: 'json',
-        //         data: option,
-        //         success: function(res) {
-        //             if (res.flag == true) {
-        //                 let cssActive1 =
-        //                     'background-color: rgb(26, 179, 148); border-color: rgb(26, 179, 148); box-shadow: rgb(26, 179, 148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s; box-shadow: 0.4s ease 0s; backgroud-color: 1.2 ease 0s;';
-        //                 let cssActive2 =
-        //                     'left: 20px; background-color: rgb(255, 255, 255); transition: background-color: 0.4s ease 0s, left 0.2s ease 0s;'
-        //                 if (option.value == 1) {
-        //                     for (let i = 0; i < id.length; i++) {
-        //                         $('.js-switch-' + id[i]).find('span.switchery').attr('style',
-        //                             cssActive1).find('small').attr('style', cssActive2)
+        $('#change-all').on('click', function() {
+            let _this = $(this);
+            let id = []
+            let field = $('.checkboxItem').attr('data-field')
+            let valueInput = $('.checkboxItem').attr('data-value')
+            $('.checkboxItem').each(function() {
+                let checkBox = $(this);
+                if (checkBox.prop('checked')) {
+                    id.push(checkBox.val())
+                }
+            });
+            let option = {
+                id: id,
+                field: field,
+                value: valueInput,
+            };
+            $.ajax({
+                url: "{{ route('user.updateStatusMultiple') }}", // Sử dụng biến id trong URL
+                type: 'get',
+                dataType: 'json',
+                data: option,
+                success: function(res) {
+                    if (res.flag == true) {
+                        let cssActive1 =
+                            'background-color: rgb(26, 179, 148); border-color: rgb(26, 179, 148); box-shadow: rgb(26, 179, 148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s; box-shadow: 0.4s ease 0s; backgroud-color: 1.2 ease 0s;';
+                        let cssActive2 =
+                            'left: 20px; background-color: rgb(255, 255, 255); transition: background-color: 0.4s ease 0s, left 0.2s ease 0s;'
+                        if (option.value == 1) {
+                            for (let i = 0; i < id.length; i++) {
+                                $('.js-switch-' + id[i]).find('span.switchery').attr('style',
+                                    cssActive1).find('small').attr('style', cssActive2)
 
-        //                     }
-        //                 }
-        //             }
-        //         },
-        //         error: function(jqXHR, textStatus, errorThrown) {
-        //             console.log('Error: ' + textStatus + ' ' + errorThrown);
-        //         }
-        //     });
-        // });
+                            }
+                        }
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Error: ' + textStatus + ' ' + errorThrown);
+                }
+            });
+        });
     </script>
 
     <script>
