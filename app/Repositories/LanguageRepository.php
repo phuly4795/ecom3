@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Language;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class LanguageRepository extends BaseRepository
 {
@@ -42,5 +43,52 @@ class LanguageRepository extends BaseRepository
             return $query->get();
         }
     }
+
+    public function CreateLanguage($request)
+    {
+        $input = $request->all();
+        DB::beginTransaction();
+        try {
+            $input['created_by'] = auth()->user()->id;
+            $this->model->create($input);
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+            return false;
+        }
+    }
  
+    public function DeleteLanguage($id)
+    {
+        DB::beginTransaction();
+        try {
+            $language = $this->findById(['*'], [], $id)->delete();
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+            return false;
+        }
+    }
+
+    public function updateStatus($id)
+    {
+
+        DB::beginTransaction();
+        try {
+            $language = $this->findById(['*'], [], $id);
+            $language->is_active = ( $language->is_active == 1 ) ? 0 : 1;
+            $language->save();
+
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+            return false;
+        }
+    }
 }

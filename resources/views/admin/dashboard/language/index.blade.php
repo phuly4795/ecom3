@@ -16,7 +16,7 @@
                     @include('admin.dashboard.language.components.filter')
                     @include('admin.dashboard.language.components.table')
 
-                    {{ $listUser->links() }}
+                    {{ $listLanguage->links() }}
                 </div>
             </div>
 
@@ -93,7 +93,7 @@
             const id = _this.attr('data-status');
             console.log(id);
             $.ajax({
-                url: "{{ route('user.updateStatus') }}", // Sử dụng biến id trong URL
+                url: "{{ route('language.updateStatus') }}", // Sử dụng biến id trong URL
                 type: 'get',
                 dataType: 'json',
                 data: {

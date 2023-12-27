@@ -10,7 +10,7 @@ class Language extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'image', 'canonical', 'created_by'
+        'name', 'image', 'canonical', 'created_by', 'is_active', 'note'
     ];
 
 }

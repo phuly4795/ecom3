@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LanguageStoreRequest;
+use App\Http\Requests\LanguageUpdateRequest;
 use App\Http\Requests\UserCatalogueStoreRequest;
 use App\Http\Requests\UserCatalogueUpdateRequest;
 use App\Repositories\LanguageRepository;
@@ -21,75 +23,63 @@ class LanguageController extends Controller
     public function index(Request $request)
     {
         $input               = $request->all();
-        $listUser = $this->LanguageRepositiory->search($input, [], $input['perpage'] ?? 20 );
+        $listLanguage = $this->LanguageRepositiory->search($input, [], $input['perpage'] ?? 20 );
 
         $config = config('apps.language.index');
 
-        return view('admin.dashboard.user.catalogue.index', compact('listUser', 'config'));
+        return view('admin.dashboard.language.index', compact('listLanguage', 'config'));
     }
 
     public function create()
     {
 
-        $config = config('apps.catalogue.create');
+        $config = config('apps.language.create');
 
         $method = 'create';
 
-      
-        $location = [
-            'province' => $this->LanguageRepositiory->all(),
-        ];
-
-
-        return view('admin.dashboard.user.catalogue.upsert', compact('config', 'location', 'method'));
+        return view('admin.dashboard.language.upsert', compact('config', 'method'));
     }
 
-    public function store(UserCatalogueStoreRequest $request)
+    public function store(LanguageStoreRequest $request)
     {
 
-        if ($this->UserCatalogueRepositiory->CreateUser($request)) {
+        if ($this->LanguageRepositiory->CreateLanguage($request)) {
 
-            return redirect()->route('user.catalogue')->with('success', 'Thêm thành viên thành công');
+            return redirect()->route('language')->with('success', 'Thêm ngôn ngữ thành công');
         }
 
-        return redirect()->route('user.catalogue')->with('error', 'Lỗi trong quá trình tạo thành viên');
+        return redirect()->route('language')->with('error', 'Lỗi trong quá trình tạo ngôn ngữ');
     }
 
     public function edit($id)
     {
 
-        $config = config('apps.catalogue.update');
+        $config = config('apps.language.update');
 
-        $infoUser = $this->UserCatalogueRepositiory->findById(['*'], [], $id);
-
-        $infoUser->birthday = date('Y-m-d', strtotime($infoUser->birthday));
+        $infoLanguage = $this->LanguageRepositiory->findById(['*'], [], $id);
 
         $method = 'update';
 
-        $location = [
-            'province' => $this->ProvinceRepository->all(),
-        ];
-
-        return view('admin.dashboard.user.catalogue.upsert', compact('config', 'location', 'infoUser', 'method'));
+        return view('admin.dashboard.language.upsert', compact('config', 'infoLanguage', 'method'));
     }
 
-    public function update(UserCatalogueUpdateRequest $request, $id)
+    public function update(LanguageUpdateRequest $request, $id)
     {
+        $input = $request->all();
+        if ($this->LanguageRepositiory->update($id, $input)) {
 
-        if ($this->UserCatalogueRepositiory->UpdateUser($id, $request)) {
-
-            return redirect()->route('user.catalogue')->with('success', 'Cập nhật nhóm thành viên thành công');
+            return redirect()->route('language')->with('success', 'Cập nhật thành công');
         }
 
-        return redirect()->route('user.catalogue')->with('error', 'Lỗi trong quá trình tạo thành viên');
+        return redirect()->route('language')->with('error', 'Lỗi trong quá trình tạo thành viên');
     }
 
     public function delete($id)
     {
 
-        if ($this->UserCatalogueRepositiory->DeleteUser($id)) {
+        if ($this->LanguageRepositiory->DeleteLanguage($id)) {
 
-            return redirect()->route('user.catalogue')->with('success', 'Xóa nhóm thành viên thành công');
+            return redirect()->route('language')->with('success', 'Xóa ngôn ngữ thành công');
         }
 
         return redirect()->route('user.catalogue')->with('error', 'Lỗi trong quá trình xóa thành viên');
@@ -99,7 +89,7 @@ class LanguageController extends Controller
     {   
         $id = $request->id;
 
-        if ($this->UserCatalogueRepositiory->updateStatus($id)) {
+        if ($this->LanguageRepositiory->updateStatus($id)) {
 
           return 'thành công';
         }

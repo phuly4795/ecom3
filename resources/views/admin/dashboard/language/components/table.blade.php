@@ -1,33 +1,29 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th class="text-center">Tên nhóm thành viên</th>
-            <th class="text-center">Số thành viên</th>
-            <th class="text-center">Mô tả</th>
-            <th class="text-center">Trạng thái</th>
-            <th class="text-center">Thao tác</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Canonical</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($listUser as $user)
+        @foreach ($listLanguage as $language)
             <tr>
                 <td class="text-center">
-                    {{ $user->name }}
+                    {{ $language->name }}
                 </td>
                 <td class="text-center">
-                    {{ $user->user_count }}
-                </td>        
-                <td class="text-center">
-                    {{ $user->description }}
+                    {{ $language->canonical }}
                 </td>
-                <td class="text-center  js-switch-{{ $user->id }}">
-                    <input type="checkbox" class="js-switch_2 status " data-status = '{{ $user->id }}'
-                        {{ $user->is_active == 1 ? 'checked' : '' }} />
+                <td class="text-center  js-switch-{{ $language->id }}">
+                    <input type="checkbox" class="js-switch_2 status " data-status = '{{ $language->id }}'
+                        {{ $language->is_active == 1 ? 'checked' : '' }} />
                 </td>
                 <td class="text-center d-flex">
-                    <a href="{{ route('user.catalogue.edit', ['id' => $user->id]) }}" class="btn btn-success"><i
+                    <a href="{{ route('language.edit', ['id' => $language->id]) }}" class="btn btn-success"><i
                             class="fa fa-edit"></i></a>
-                    <form action="{{ route('user.catalogue.delete', ['id' => $user->id]) }}" method="post">
+                    <form action="{{ route('language.delete', ['id' => $language->id]) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')"><i
