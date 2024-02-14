@@ -6,9 +6,12 @@
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
-                <div class="dropdown profile-element"> <span>
-                        <img alt="image" class="img-circle" src="{{ asset('img/profil') }}e_small.jpg" />
-                    </span>
+                <div class="dropdown profile-element"> 
+                    <a href="{{ route('dashboard') }}">
+                        <span>
+                            <img alt="image" class="img-circle" src="{{ asset(Auth::user()->image)}}" width="50px" />
+                        </span>
+                    </a>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear"> <span class="block m-t-xs"> <strong
                                     class="font-bold">{{ Auth::user()->name }}</strong>

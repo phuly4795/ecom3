@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($listLanguage as $language)
+        @foreach ($PostCatalogue as $language)
             <tr>
                 <td class="text-center">
                     {{ $language->name }}

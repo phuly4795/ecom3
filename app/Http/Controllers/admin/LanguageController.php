@@ -23,7 +23,7 @@ class LanguageController extends Controller
     public function index(Request $request)
     {
         $input               = $request->all();
-        $listLanguage = $this->LanguageRepositiory->search($input, [], $input['perpage'] ?? 20 );
+        $listLanguage = $this->LanguageRepositiory->search($input, [], $input['perpage'] ?? 20);
 
         $config = config('apps.language.index');
 
@@ -86,12 +86,11 @@ class LanguageController extends Controller
     }
 
     public function updateStatus(Request $request)
-    {   
+    {
         $id = $request->id;
 
         if ($this->LanguageRepositiory->updateStatus($id)) {
-
-          return 'thành công';
+            return 'thành công';
         }
 
         return 'Lỗi';

@@ -6,7 +6,9 @@
     <div class="row mt-2">
         <div class="col-lg-12 mb-2">
             <div class="ibox float-e-margins">
-                @include('admin.dashboard.user.user.components.toolbox', ['tableHeading' => $config['info']])
+                @include('admin.dashboard.user.user.components.toolbox', [
+                    'tableHeading' => $config['info'],
+                ])
                 <div class="ibox-content">
                     @php
                         $action = $method == 'create' ? route('user.store') : route('user.update', ['id' => $infoUser->id]);
@@ -43,7 +45,7 @@
                             <label class="col-sm-2 control-label">Ngày sinh</label>
                             <div class="col-sm-10">
                                 <input type="date" name="birthday" class="form-control"
-                                    value="{{ old('birthday', !empty($infoUser) ? date('Y-d-m', strtotime( $infoUser->birthday))  : '') }}">
+                                    value="{{ old('birthday', !empty($infoUser) ? date('Y-d-m', strtotime($infoUser->birthday)) : '') }}">
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -89,7 +91,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Ảnh đại diện</label>
                             <div class="col-sm-10">
-                                <input type="file" class="form-control input-image" name="file"
+                                <input type="text" class="form-control input-image" id="upload-image" name="image"
                                     value="{{ old('image', !empty($infoUser) ? $infoUser->image : '') }}">
                             </div>
                         </div>
@@ -148,7 +150,7 @@
                             </div>
 
                         </div>
-                   
+
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-2">
@@ -177,7 +179,7 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('plugin/ckfinder_2/ckfinder.js') }}"></script>
+    <script src="{{ asset('plugin/ckfinder_2/ckfinder.js') }} "></script>
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -232,5 +234,30 @@
             }
 
         }
+    </script>
+
+
+    <script>
+        setUpCK = (object, type) => {
+            if (typeof(type) == "undefined") {
+                type = "Images";
+            }
+
+            var finder = new CKFinder();
+            finder.resourceType = type;
+            finder.selectActionFunction = function(fileUrl, data) {
+                object.val(fileUrl);
+
+            }
+            finder.popup();
+        }
+
+        $(document).ready(function() {
+            $('#upload-image').on("click", function() {
+                let input = $(this);
+                let type = input.attr("data-type");
+                setUpCK(input, type);
+            });
+        });
     </script>
 @endsection

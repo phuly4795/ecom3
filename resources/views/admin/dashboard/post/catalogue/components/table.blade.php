@@ -9,29 +9,29 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($listLanguage as $language)
+        @foreach ($listPostCatalogue as $PostCatalogue)
             <tr>
                 <td class="text-center">
-                    {{ $language->name }}
+                    {{ $PostCatalogue->name }}
                 </td>
                 <td class="text-center">
                     <span class="image img-cover">
-                        <img src="{{ asset($language->image) }}" alt="image">
+                        <img src="{{ asset($PostCatalogue->image) }}" alt="image">
                     </span>
                 </td>
                 <td class="text-center">
-                    {{ $language->canonical }}
+                    {{ $PostCatalogue->canonical }}
                 </td>
-                <td class="text-center  js-switch-{{ $language->id }}">
-                    <input type="checkbox" class="js-switch_2 status " data-status = '{{ $language->id }}'
-                        {{ $language->is_active == 1 ? 'checked' : '' }} />
+                <td class="text-center  js-switch-{{ $PostCatalogue->id }}">
+                    <input type="checkbox" class="js-switch_2 status " data-status = '{{ $PostCatalogue->id }}'
+                        {{ $PostCatalogue->is_active == 1 ? 'checked' : '' }} />
                 </td>
                 <td class="text-center d-flex">
-                    <a href="{{ route('language.edit', ['id' => $language->id]) }}" class="btn btn-success"
+                    <a href="{{ route('PostCatalogue.edit', ['id' => $PostCatalogue->id]) }}" class="btn btn-success"
                         style="margin-right:10%">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <form action="{{ route('language.delete', ['id' => $language->id]) }}" method="post">
+                    <form action="{{ route('PostCatalogue.delete', ['id' => $PostCatalogue->id]) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')"><i

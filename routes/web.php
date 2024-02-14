@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\LanguageController;
+use App\Http\Controllers\admin\PostCatalogueController;
 use App\Http\Controllers\admin\UserCatalogueController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\ajax\LocationController;
@@ -58,6 +59,17 @@ Route::prefix('/admin')->group(function () {
             Route::delete('/delete-user/{id}', [UserCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post.delete');
             Route::get('/update-status-user', [UserCatalogueController::class, 'updateStatus'])->name('post.updateStatus');
             Route::get('/update-status-multiple', [UserCatalogueController::class, 'updateStatusMultiple'])->name('post.updateStatusMultiple');
+        });
+
+        Route::prefix('/post-catalogue')->group(function () {
+            Route::get('/', [PostCatalogueController::class, 'index'])->name('post-catalogue');
+            Route::get('/create-post-catalogue', [PostCatalogueController::class, 'create'])->name('post-catalogue.create');
+            Route::post('/create-post-catalogue', [PostCatalogueController::class, 'store'])->name('post-catalogue.store');
+            Route::get('/update-post-catalogue/{id}', [PostCatalogueController::class, 'edit'])->where(['id' => '[0-9]+'])->name('post-catalogue.edit');
+            Route::put('/update-post-catalogue/{id}', [PostCatalogueController::class, 'update'])->where(['id' => '[0-9]+'])->name('post-catalogue.update');
+            Route::delete('/delete-post-catalogue/{id}', [PostCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post-catalogue.delete');
+            Route::get('/update-status-post-catalogue', [PostCatalogueController::class, 'updateStatus'])->name('post-catalogue.updateStatus');
+            Route::get('/update-status-multiple', [PostCatalogueController::class, 'updateStatusMultiple'])->name('post-catalogue.updateStatusMultiple');
         });
 
         Route::prefix('/language')->group(function () {

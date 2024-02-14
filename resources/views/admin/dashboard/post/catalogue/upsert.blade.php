@@ -4,7 +4,27 @@
 @section('content')
     @include('admin.dashboard.components.breadcrumb', ['title' => $config['title']])
     <div class="row mt-2">
-        <div class="col-lg-12 mb-2">
+        <div class="col-lg-9 mb-2">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Thông tin chung
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row mb15">
+                        <div class="col-lg-12">
+                            <div class="form-row">
+                                <label class="text-left control-label">Tiêu đề nhóm bài viết <span
+                                        class="required">(*)</span></label>
+                                <input type="text" name="name" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mb-2">
             <div class="ibox float-e-margins">
                 @include('admin.dashboard.language.components.toolbox', [
                     'tableHeading' => $config['info'],
@@ -45,7 +65,8 @@
                             <label class="col-sm-2 control-label">Image </label>
                             <div class="col-sm-10">
                                 <input type="text" name="image" id="Images" class="form-control"
-                                    value="{{ old('Images', !empty($infoLanguage) ? $infoLanguage->image : '') }}" data-type ="Images">
+                                    value="{{ old('Images', !empty($infoLanguage) ? $infoLanguage->image : '') }}"
+                                    data-type ="Images">
                                 @if ($errors->has('Images'))
                                     <span class="error-message"> * {{ $errors->first('Images') }}</span>
                                 @endif
@@ -88,7 +109,7 @@
             finder.resourceType = type;
             finder.selectActionFunction = function(fileUrl, data) {
                 object.val(fileUrl);
-              
+
             }
             finder.popup();
         }
