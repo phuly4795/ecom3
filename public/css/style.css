@@ -3665,6 +3665,7 @@ video {
 .ibox-title h4,
 .ibox-title h5 {
   margin-top: 5px;
+  text-transform: uppercase;
 }
 ul.unstyled,
 ol.unstyled {

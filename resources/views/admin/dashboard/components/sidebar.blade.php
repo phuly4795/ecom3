@@ -6,10 +6,11 @@
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
-                <div class="dropdown profile-element"> 
+                <div class="dropdown profile-element">
                     <a href="{{ route('dashboard') }}">
                         <span>
-                            <img alt="image" class="img-circle" src="{{ asset(Auth::user()->image)}}" width="50px" />
+                            <img alt="image" class="img-circle" src="{{ asset(Auth::user()->image) }}"
+                                width="50px" />
                         </span>
                     </a>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -31,8 +32,7 @@
             </li>
 
             @foreach (config('apps.module.module') as $key => $item)
-            {{-- {{dd( $segment, $item['name'] )}} --}}
-                <li class="{{ (in_array($segment, $item['name'] ) ? 'active' : '') }}">
+                <li class="{{ in_array($segment, $item['name']) ? 'active' : '' }}">
                     <a href="">
                         <i class="{{ $item['icon'] }}"></i>
                         <span class="nav-label">{{ $item['title'] }} </span>
@@ -41,8 +41,8 @@
                     @if ($item['subModule'])
                         <ul class="nav nav-second-level">
                             @foreach ($item['subModule'] as $key => $subModule)
-                                {{-- {{dd($subModule['name'])}} --}}
-                                <li class="{{( !empty($subModule['name'] ) ? ($segment == $subModule['name'] ? 'active' : '' ) : '' )}}">
+                                <li
+                                    class="{{ !empty($subModule['name']) ? ($segment == $subModule['name'] ? 'active' : '') : '' }}">
                                     <a href="{{ route($subModule['route']) }}">{{ $subModule['title'] }}</a>
                                 </li>
                             @endforeach
