@@ -13,10 +13,19 @@
 
             <div class="action">
                 <div class="uk-flex uk-flex-middle">
-                    {{-- <select name="user_catalogue_id" class="form-control mr10">
-                        <option value="0">Chọn nhóm thành viên</option>
-                        <option value="1">Quản trị viên</option>
-                    </select> --}}
+                    <?php
+                    $isAcitve = [
+                        '-1' => 'Tất cả',
+                        '0' => 'Không xuất bản',
+                        '1' => 'Xuất bản',
+                    ];
+                    ?>
+                    <select name="is_active" class="form-control mr10">
+                        @foreach ($isAcitve as $key => $value)
+                            <option {{ request('is_active') == $key ? 'selected' : '' }} value="{{ $key }}">
+                                {{ $value }}</option>
+                        @endforeach
+                    </select>
                     <div class="uk-search uk-flex uk-flex-middle mr10">
                         <div class="input-group">
                             <input type="text" name="keyword" value="{{ request('keyword') ?? old('keyword') }}"
@@ -27,7 +36,8 @@
                             </span>
                         </div>
                     </div>
-                    <a href=" {{ route('post-catalogue.create') }} " class="btn btn-danger"><i class="fa fa-plus mr5"></i>Thêm nhóm bài viết</a>
+                    <a href=" {{ route('post-catalogue.create') }} " class="btn btn-danger"><i
+                            class="fa fa-plus mr5"></i>Thêm nhóm bài viết</a>
                 </div>
             </div>
         </div>

@@ -93,7 +93,7 @@
             const id = _this.attr('data-status');
             console.log(id);
             $.ajax({
-                url: "{{ route('language.updateStatus') }}", // Sử dụng biến id trong URL
+                url: "{{ route('post-catalogue.updateStatus') }}", // Sử dụng biến id trong URL
                 type: 'get',
                 dataType: 'json',
                 data: {
@@ -126,7 +126,7 @@
                 value: valueInput,
             };
             $.ajax({
-                url: "{{ route('user.updateStatusMultiple') }}", // Sử dụng biến id trong URL
+                url: "{{ route('post-catalogue.updateStatusMultiple') }}", // Sử dụng biến id trong URL
                 type: 'get',
                 dataType: 'json',
                 data: option,

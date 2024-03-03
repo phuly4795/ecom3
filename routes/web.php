@@ -61,14 +61,14 @@ Route::prefix('/admin')->group(function () {
             Route::get('/update-status-multiple', [UserCatalogueController::class, 'updateStatusMultiple'])->name('post.updateStatusMultiple');
         });
 
-        Route::prefix('/post-catalogue')->group(function () {
+        Route::prefix('/catalogue')->group(function () {
             Route::get('/', [PostCatalogueController::class, 'index'])->name('post-catalogue');
-            Route::get('/create-post-catalogue', [PostCatalogueController::class, 'create'])->name('post-catalogue.create');
-            Route::post('/create-post-catalogue', [PostCatalogueController::class, 'store'])->name('post-catalogue.store');
-            Route::get('/update-post-catalogue/{id}', [PostCatalogueController::class, 'edit'])->where(['id' => '[0-9]+'])->name('post-catalogue.edit');
-            Route::put('/update-post-catalogue/{id}', [PostCatalogueController::class, 'update'])->where(['id' => '[0-9]+'])->name('post-catalogue.update');
-            Route::delete('/delete-post-catalogue/{id}', [PostCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post-catalogue.delete');
-            Route::get('/update-status-post-catalogue', [PostCatalogueController::class, 'updateStatus'])->name('post-catalogue.updateStatus');
+            Route::get('/create', [PostCatalogueController::class, 'create'])->name('post-catalogue.create');
+            Route::post('/create', [PostCatalogueController::class, 'store'])->name('post-catalogue.store');
+            Route::get('/update/{id}', [PostCatalogueController::class, 'edit'])->where(['id' => '[0-9]+'])->name('post-catalogue.edit');
+            Route::put('/update/{id}', [PostCatalogueController::class, 'update'])->where(['id' => '[0-9]+'])->name('post-catalogue.update');
+            Route::delete('/delete/{id}', [PostCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post-catalogue.delete');
+            Route::get('/update-status', [PostCatalogueController::class, 'updateStatus'])->name('post-catalogue.updateStatus');
             Route::get('/update-status-multiple', [PostCatalogueController::class, 'updateStatusMultiple'])->name('post-catalogue.updateStatusMultiple');
         });
 

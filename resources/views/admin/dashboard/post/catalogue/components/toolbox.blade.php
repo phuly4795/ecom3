@@ -4,13 +4,13 @@
         <a class="collapse-link">
             <i class="fa fa-chevron-up"></i>
         </a>
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-wrench"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="#" id="change-all">Change multiple</a>
+            <li><a id="change-all">Change multiple</a>
             </li>
-            <li><a href="#">Config option 2</a>
+            <li><a>Config option 2</a>
             </li>
         </ul>
         <a class="close-link">

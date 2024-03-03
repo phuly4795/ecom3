@@ -3,23 +3,6 @@
 return [
     'module' => [
         [
-            'title' => 'QL thành viên',
-            'icon' => 'fa fa-th-large',
-            'name' => ['user', 'user-catalogue'],
-            'subModule' => [
-                [
-                    'title' => 'QL thành viên',
-                    'route' => 'user',
-                    'name'  => 'user'
-                ],
-                [
-                    'title' => 'QL nhóm thành viên',
-                    'route' => 'user.catalogue',
-                    'name'  => 'user-catalogue'
-                ],
-            ]
-        ],
-        [
             'title' => 'QL bài viết',
             'icon' => 'fa fa-file',
             'name' => ['post', 'post-catalogue'],
@@ -37,6 +20,24 @@ return [
 
             ]
         ],
+        [
+            'title' => 'QL thành viên',
+            'icon' => 'fa fa-th-large',
+            'name' => ['user', 'user-catalogue'],
+            'subModule' => [
+                [
+                    'title' => 'QL thành viên',
+                    'route' => 'user',
+                    'name'  => 'user'
+                ],
+                [
+                    'title' => 'QL nhóm thành viên',
+                    'route' => 'user.catalogue',
+                    'name'  => 'user-catalogue'
+                ],
+            ]
+        ],
+
         [
             'title' => 'Cấu hình chung',
             'icon' => 'fa fa-file',

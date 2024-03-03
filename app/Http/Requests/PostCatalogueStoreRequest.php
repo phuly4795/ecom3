@@ -23,19 +23,17 @@ class PostCatalogueStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'canonical' => 'unique:languages|required',
-            'name' => 'required|string|max:255',
+            'name' => 'required',
+            'canonical' => 'unique:post_catalogue_languages|required',
         ];
     }
 
     public function messages()
     {
         return [
-            'canonical.unique' => 'Trùng mã',
-            'canonical.required' => 'không được bỏ trống!',
-            'name.required' => 'Trường tên không được bỏ trống!',
-            'name.string' => 'tên phải là dạng ký tự!',
-            'name.max' => 'tên tối đa chỉ được 255 kí tự!',
+            'canonical.required' => 'Đường dẫn không được bỏ trống!',
+            'canonical.unique' => 'Đường dẫn đã tồn tại!',
+            'name.required' => 'Trường tiêu đề không được bỏ trống!',
         ];
     }
 }

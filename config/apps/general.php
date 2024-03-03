@@ -11,4 +11,5 @@ return [
         '1' => "nofollow",
         '2' => "follow",
     ],
+    "suffix" => ".html"
 ];

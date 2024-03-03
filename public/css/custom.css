@@ -29,6 +29,9 @@
   margin-bottom: 2%;
 }
 
+.mb-5 {
+  margin-bottom: 5%;
+}
 
 .uk-flex {
   display: flex;
@@ -85,6 +88,9 @@
   margin-right: 5px;
 }
 
+.w100 {
+  width: 100% !important;
+}
 
 .required {
   font-size: 15px;
@@ -104,8 +110,12 @@ table .image {
   display: block;
 }
 
-.image img{
+.image img {
   width: 100%;
+}
+
+.img-target {
+  cursor: pointer !important;
 }
 
 table .img-cover img {
@@ -118,7 +128,7 @@ table .img-cover img {
   margin-bottom: 15px;
 }
 
-.meta-title {
+.meta_title {
   font-size: 20px;
   color: #1a0dab;
 }
@@ -128,7 +138,7 @@ table .img-cover img {
   margin-bottom: 8px;
 }
 
-.meta-description {
+.meta_description {
   font-size: 14px;
   color: #777;
 }
@@ -142,7 +152,34 @@ table .img-cover img {
   resize: none;
 }
 
-.noti{
+.noti {
   font-size: 11px;
   font-style: italic;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input:focus {
+  border-color: #e5e6e7 !important;
+}
+
+.input-wrapper .baseUrl {
+  position: absolute;
+  height: 34px;
+  line-height: 34px;
+  display: inline-block;
+  padding: 0 10px;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to bottom, #fff, #f9fafb);
+  border-color: #e5e6e7 !important;
+  border: 1px solid;
+  border-right: 0;
+}
+
+input[name=canonical] {
+  color: navy;
+  font-weight: 600;
 }

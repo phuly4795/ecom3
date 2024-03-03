@@ -63,6 +63,7 @@ abstract class BaseRepository
         if (empty($attributes['sort'])) {
             $attributes['sort'] = ['updated_at' => 'desc'];
         }
+        
         foreach ($attributes['sort'] as $key => $value) {
 
             if (!$value) {
@@ -76,6 +77,7 @@ abstract class BaseRepository
             if (!in_array($key, $validColumn)) {
                 continue;
             }
+
             $query->orderBy($key, $value);
         }
     }
@@ -89,5 +91,15 @@ abstract class BaseRepository
     public function updateByWhereIn($column, $array, $payload)
     {
         return $this->model->whereIn($column, $array)->update($payload);
+    }
+
+    public function currentLanguage()
+    {
+        return 2;
+    }
+
+    public function createLanguagePivot($model, array $payload = [])
+    {
+        return $model->languages()->attach($model->id, $payload);
     }
 }

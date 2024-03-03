@@ -1,14 +1,12 @@
 <div class="seo-container">
-    <div class="meta-title">
-        title
+    <div class="meta_title">
+        {{ old('meta_title') ?? 'Bạn chưa có tiêu đề SEO' }}
     </div>
     <div class="canonical">
-        https://www.abc.com
+        {{ old('canonical') ? config('app.url') . old('canonical') . config('apps.general.suffix') : 'https://duong-dan-cua-ban.html' }}
     </div>
-    <div class="meta-description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod nihil eum, saepe doloribus natus
-        animi adipisci aspernatur tempora fugiat esse officiis nesciunt debitis vero ut blanditiis
-        architecto vel pariatur sequi.
+    <div class="meta_description">
+        {{ old('meta_description') ?? 'Bạn chưa có mô tả SEO' }}
     </div>
 </div>
 <div class="seo-wrapper">
@@ -21,7 +19,8 @@
                         <span class="count_meta-title">0 ký tự</span>
                     </div>
                 </label>
-                <input type="text" name="meta-title" class="form-control" autocomplete="off">
+                <input type="text" name="meta_title" class="form-control" autocomplete="off"
+                    value="{{ old('meta_title') }}">
             </div>
         </div>
     </div>
@@ -31,7 +30,8 @@
                 <label class="text-left control-label" style="width: 100%">
                     <span>Từ khóa SEO</span>
                 </label>
-                <input type="text" name="meta-keyword"  class="form-control" autocomplete="off">
+                <input type="text" name="meta_keyword" class="form-control" autocomplete="off"
+                    value="{{ old('meta_keyword') }}">
             </div>
         </div>
     </div>
@@ -44,7 +44,8 @@
                         <span class="count_meta-description">0 ký tự</span>
                     </div>
                 </label>
-                <textarea type="text" name="meta-description" class="form-control" autocomplete="off"></textarea>
+                <textarea type="text" name="meta_description" class="form-control" autocomplete="off" rows="10">{{ old('meta_description') }}</textarea>
+
             </div>
         </div>
     </div>
@@ -52,9 +53,13 @@
         <div class="col-lg-12">
             <div class="form-row">
                 <label class="text-left control-label" style="width: 100%">
-                    <span>Đường dẫn</span>
+                    <span>Đường dẫn <span class="required">(*)</span></span>
                 </label>
-                <input type="text" name="canonical" class="form-control" autocomplete="off">
+                <div class="input-wrapper">
+                    <input type="text" name="canonical" class="form-control" autocomplete="off"
+                        value="{{ old('canonical') }}">
+                    <span class="baseUrl">{{ env('APP_URL') }}</span>
+                </div>
             </div>
         </div>
     </div>

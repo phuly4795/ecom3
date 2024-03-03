@@ -7,22 +7,29 @@ use App\Http\Requests\PostCatalogueStoreRequest;
 use App\Http\Requests\PostCatalogueUpdateRequest;
 use App\Repositories\Admin\Post\PostCatalogueRepository;
 use Illuminate\Http\Request;
+use App\Classes\Nestedsetbie;
 
 class PostCatalogueController extends Controller
 {
     protected $PostCatalogueRepositiory;
+    protected $Nestedsetbie;
 
     public function __construct(
-        PostCatalogueRepository $PostCatalogueCatalogueRepository
+        PostCatalogueRepository $PostCatalogueRepositiory,
     ) {
-        $this->PostCatalogueRepositiory = $PostCatalogueCatalogueRepository;
+        $this->PostCatalogueRepositiory = $PostCatalogueRepositiory;
+        $this->Nestedsetbie = new Nestedsetbie([
+            'table' => 'post_catalogues',
+            'foreignkey' => 'post_catalogue_id',
+            'language_id' => $PostCatalogueRepositiory->currentLanguage()
+        ]);
     }
 
     public function index(Request $request)
     {
         $input               = $request->all();
-        $listPostCatalogue = $this->PostCatalogueRepositiory->search($input, [], $input['perpage'] ?? 20);
-
+        $input['sort'] = ['lft' => 'asc'];
+        $listPostCatalogue = $this->PostCatalogueRepositiory->search($input, ['postCatalogueLanguage'], $input['perpage'] ?? 20);
         $config = config('apps.post-catalogue.index');
 
         return view('admin.dashboard.post.catalogue.index', compact('listPostCatalogue', 'config'));
@@ -35,30 +42,31 @@ class PostCatalogueController extends Controller
 
         $method = 'create';
 
-        return view('admin.dashboard.post.catalogue.upsert', compact('config', 'method'));
+        $dropdown = $this->Nestedsetbie->Dropdown();
+
+        return view('admin.dashboard.post.catalogue.upsert', compact('config', 'method', 'dropdown'));
     }
 
     public function store(PostCatalogueStoreRequest $request)
     {
-
         if ($this->PostCatalogueRepositiory->CreatePostCatalogue($request)) {
 
-            return redirect()->route('PostCatalogue')->with('success', 'Thêm ngôn ngữ thành công');
+            return redirect()->route('post-catalogue')->with('success', 'Thêm ngôn ngữ thành công');
         }
 
-        return redirect()->route('PostCatalogue')->with('error', 'Lỗi trong quá trình tạo ngôn ngữ');
+        return redirect()->route('post-catalogue')->with('error', 'Lỗi trong quá trình tạo ngôn ngữ');
     }
 
     public function edit($id)
     {
 
-        $config = config('apps.PostCatalogue.update');
+        $config = config('apps.post-catalogue.update');
 
-        $infoPostCatalogue = $this->PostCatalogueRepositiory->findById(['*'], [], $id);
-
+        $infoPostCatalogue = $this->PostCatalogueRepositiory->findPostCatalogue(['*'], ['postCatalogueLanguage'], 'language_id', $this->PostCatalogueRepositiory->currentLanguage(), $id);
+        dd($infoPostCatalogue);
         $method = 'update';
-
-        return view('admin.dashboard.PostCatalogue.upsert', compact('config', 'infoPostCatalogue', 'method'));
+        $dropdown = $this->Nestedsetbie->Dropdown();
+        return view('admin.dashboard.post.catalogue.upsert', compact('config', 'infoPostCatalogue', 'method', 'dropdown'));
     }
 
     public function update(PostCatalogueUpdateRequest $request, $id)
@@ -94,14 +102,13 @@ class PostCatalogueController extends Controller
         return 'Lỗi';
     }
 
-    // public function updateStatusMultiple(Request $request)
-    // {   
-    //     $input =  $request->all();
-    //     if ($this->UserCatalogueRepositiory->updateStatusMultiple($input)) {
-    //       return response()->json(['flag' => $this->UserCatalogueRepositiory->updateStatusMultiple($input) ]);
-    //     }
+    public function updateStatusMultiple(Request $request)
+    {
+        $input =  $request->all();
+        if ($this->PostCatalogueRepositiory->updateStatusMultiple($input)) {
+            return response()->json(['flag' => $this->PostCatalogueRepositiory->updateStatusMultiple($input)]);
+        }
 
-    //     return 'Lỗi';
-    // }
-
+        return 'Lỗi';
+    }
 }
