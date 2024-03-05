@@ -3,13 +3,13 @@
 return [
     "publish" => [
         '0' => "Chọn tình trạng",
-        '1' => "Không xuất bản",
-        '2' => "Xuất bản"
+        '1' => "Xuất bản",
+        '2' => "Không xuất bản",
     ],
     "follow" => [
         '0' => "Chọn điều hướng",
-        '1' => "nofollow",
-        '2' => "follow",
+        '1' => "follow",
+        '2' => "nofollow",
     ],
     "suffix" => ".html"
 ];

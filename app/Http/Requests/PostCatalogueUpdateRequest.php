@@ -12,18 +12,17 @@ class PostCatalogueUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'unique:languages,code,' . $this->id . '',
-            'name' => 'required|string|max:255',
+            'canonical' => 'required|unique:post_catalogue_languages,canonical, ' . $this->id . ',post_catalogue_id',
+            'name' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'code.unique' => 'Code đã tồn tại!',
+            'canonical.unique' => 'Đường dẫn đã tồn tại!',
+            'canonical.required' => 'Trường đường dẫn không được bỏ trống!',
             'name.required' => 'Trường Name không được bỏ trống!',
-            'name.string' => 'Name phải là dạng ký tự!',
-            'name.max' => 'Name tối đa chỉ được 255 kí tự!',
         ];
     }
 }

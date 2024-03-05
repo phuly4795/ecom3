@@ -38,6 +38,12 @@ class PostCatalogueRepository extends BaseRepository
             $query->where('is_active', $input['is_active']);
         }
 
+        $input['language'] = $this->currentLanguage();
+
+        $query->whereHas('postCatalogueLanguage', function ($q) use ($input) {
+            $q->where('language_id', $input['language']);
+        });
+
         if ($limit) {
             // if ($limit === 1) {
             //     return $query->first();
@@ -56,12 +62,12 @@ class PostCatalogueRepository extends BaseRepository
         try {
             $payload = $request->only($this->payload());
             $payload['created_by'] = auth()->user()->id;
-
             $postCatalogue =  $this->model->create($payload);
             if ($postCatalogue->id > 0) {
                 $payloadLanguage = $request->only($this->payloadLanguage());
                 $payloadLanguage['language_id'] = $this->currentLanguage();
                 $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
+                $payloadLanguage['created_by'] = auth()->user()->id;
                 $language = $this->createLanguagePivot($postCatalogue, $payloadLanguage);
             }
             $this->Nestedsetbie->Get('level ASC, order ASC');
@@ -71,6 +77,34 @@ class PostCatalogueRepository extends BaseRepository
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
+            dd($th);
+            return false;
+        }
+    }
+
+    public function UpdatePostCatalogue($request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $input = $request->only($this->payload());
+            // dd($input);
+            $postCatalogue = $this->findById(['*'], [], $id);
+            $flag =  $this->update($id, $input);
+            if ($flag == true) {
+                $payloadLanguage = $request->only($this->payloadLanguage());
+                $payloadLanguage['language_id'] = $this->currentLanguage();
+                $payloadLanguage['post_catalogue_id'] = $id;
+                $postCatalogue->languages()->detach([$payloadLanguage['language_id'], $id]);
+                $response = $this->createLanguagePivot($postCatalogue, $payloadLanguage);
+
+                $this->Nestedsetbie->Get('level ASC, order ASC');
+                $this->Nestedsetbie->Recursive(0, $this->Nestedsetbie->Set());
+                $this->Nestedsetbie->Action();
+            }
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollback();
             dd($th);
             return false;
         }
@@ -137,12 +171,26 @@ class PostCatalogueRepository extends BaseRepository
     }
 
     public function findPostCatalogue(
-        array $column = ['*'],
-        array $relation = [],
-        String $code,
-        String $codeFind,
-        int $id
+        int $id,
+        int $language_id = 0
     ) {
-        return $this->model->select($column)->with($relation)->where($code, $codeFind)->findOrFail($id);
+        return $this->model->select([
+            'post_catalogues.id',
+            'post_catalogues.parent_id',
+            'post_catalogues.follow',
+            'post_catalogues.is_active',
+            'post_catalogues.image',
+            'post_catalogues.album',
+            'post_catalogues.icon',
+            'tb2.name',
+            'tb2.description',
+            'tb2.content',
+            'tb2.meta_title',
+            'tb2.meta_keyword',
+            'tb2.meta_description',
+            'tb2.canonical',
+        ])->join('post_catalogue_languages as tb2', 'tb2.post_catalogue_id', '=', 'post_catalogues.id')
+            ->where('tb2.language_id', $language_id)
+            ->findOrFail($id);
     }
 }

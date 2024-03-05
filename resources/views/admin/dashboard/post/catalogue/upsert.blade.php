@@ -12,8 +12,17 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('post-catalogue.store') }}" method="POST">
+    @php
+        $action =
+            $method == 'create'
+                ? route('post-catalogue.store')
+                : route('post-catalogue.update', ['id' => $infoPostCatalogue->id]);
+    @endphp
+    <form action="{{ $action }}" method="POST">
         @csrf
+        @if ($method == 'update')
+        @method('PUT')
+    @endif
         <div class="row mt-2">
             <div class="col-lg-9 mb-2">
                 <div class="ibox">

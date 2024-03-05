@@ -20,7 +20,7 @@
                     </div>
                 </label>
                 <input type="text" name="meta_title" class="form-control" autocomplete="off"
-                    value="{{ old('meta_title') }}">
+                    value="{{ old('meta_title', isset($infoPostCatalogue) ? $infoPostCatalogue->meta_title : '') }}">
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                     <span>Từ khóa SEO</span>
                 </label>
                 <input type="text" name="meta_keyword" class="form-control" autocomplete="off"
-                    value="{{ old('meta_keyword') }}">
+                    value="{{ old('meta_keyword', isset($infoPostCatalogue) ? $infoPostCatalogue->meta_keyword : '') }}">
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
                         <span class="count_meta-description">0 ký tự</span>
                     </div>
                 </label>
-                <textarea type="text" name="meta_description" class="form-control" autocomplete="off" rows="10">{{ old('meta_description') }}</textarea>
+                <textarea type="text" name="meta_description" class="form-control" autocomplete="off" rows="10">{{ old('meta_description', isset($infoPostCatalogue) ? $infoPostCatalogue->meta_description : '') }}</textarea>
 
             </div>
         </div>
@@ -57,7 +57,7 @@
                 </label>
                 <div class="input-wrapper">
                     <input type="text" name="canonical" class="form-control" autocomplete="off"
-                        value="{{ old('canonical') }}">
+                        value="{{ old('canonical', isset($infoPostCatalogue) ? $infoPostCatalogue->canonical : '')}}">
                     <span class="baseUrl">{{ env('APP_URL') }}</span>
                 </div>
             </div>

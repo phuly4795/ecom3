@@ -62,8 +62,8 @@ class PostCatalogueController extends Controller
 
         $config = config('apps.post-catalogue.update');
 
-        $infoPostCatalogue = $this->PostCatalogueRepositiory->findPostCatalogue(['*'], ['postCatalogueLanguage'], 'language_id', $this->PostCatalogueRepositiory->currentLanguage(), $id);
-        dd($infoPostCatalogue);
+        $infoPostCatalogue = $this->PostCatalogueRepositiory->findPostCatalogue($id, 2);
+
         $method = 'update';
         $dropdown = $this->Nestedsetbie->Dropdown();
         return view('admin.dashboard.post.catalogue.upsert', compact('config', 'infoPostCatalogue', 'method', 'dropdown'));
@@ -71,13 +71,11 @@ class PostCatalogueController extends Controller
 
     public function update(PostCatalogueUpdateRequest $request, $id)
     {
-        $input = $request->all();
-        if ($this->PostCatalogueRepositiory->update($id, $input)) {
-
-            return redirect()->route('PostCatalogue')->with('success', 'Cập nhật thành công');
+        if ($this->PostCatalogueRepositiory->UpdatePostCatalogue($request, $id)) {
+            return redirect()->route('post-catalogue')->with('success', 'Cập nhật thành công');
         }
 
-        return redirect()->route('PostCatalogue')->with('error', 'Lỗi trong quá trình tạo thành viên');
+        return redirect()->route('post-catalogue')->with('error', 'Lỗi trong quá trình cập nhật nhóm bài viết');
     }
 
     public function delete($id)

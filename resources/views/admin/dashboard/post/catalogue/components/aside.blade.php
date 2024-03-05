@@ -8,7 +8,9 @@
                     <div class="text-danger noti mb-2">Chọn Root nếu không có danh mục cha</div>
                     <select name="parent_id" id="" class="form-control select2">
                         @foreach ($dropdown as $key => $item)
-                            <option {{ old('parent_id') == $key ? 'selected' : '' }} value="{{ $key }}">
+                            <option
+                                {{ old('parent_id', isset($infoPostCatalogue) ? $infoPostCatalogue->parent_id : '') == $key ? 'selected' : '' }}
+                                value="{{ $key }}">
                                 {{ $item }}</option>
                         @endforeach
                     </select>
@@ -26,9 +28,11 @@
             <div class="col-lg-12">
                 <div class="form-row">
                     <span class="image img-cover img-target">
-                        <img src="{{ old('img-target') ?? asset('/img/no-image.jpg') }}" alt="no-image">
+                        <img src="{{ old('img-target', isset($infoPostCatalogue) ? $infoPostCatalogue->image : asset('/img/no-image.jpg')) ?? asset('/img/no-image.jpg') }}"
+                            alt="no-image">
                     </span>
-                    <input type="hidden" name="image" value="{{ old('img-target') }}">
+                    <input type="hidden" name="image"
+                        value="{{ old('img-target', isset($infoPostCatalogue) ? $infoPostCatalogue->image : '') }}">
                 </div>
             </div>
         </div>
@@ -45,15 +49,18 @@
                     <div class="mb15">
                         <select name="is_active" id="" class="form-control select2">
                             @foreach (config('apps.general.publish') as $key => $val)
-                                <option {{ old('is_active') == $key ? 'selected' : '' }} value="{{ $key }}">
+                                <option
+                                    {{ old('is_active', isset($infoPostCatalogue) ? $infoPostCatalogue->is_active : 0) == $key ? 'selected' : '' }}
+                                    value="{{ $key }}">
                                     {{ $val }}</option>
                             @endforeach
                         </select>
                     </div>
                     <select name="follow" id="" class="form-control select2">
                         @foreach (config('apps.general.follow') as $key => $val)
-                            <option {{ old('follow') == $key ? 'selected' : '' }} value="{{ $key }}"
-                                value="{{ $key }}">{{ $val }}</option>
+                            <option
+                                {{ old('follow', isset($infoPostCatalogue) ? $infoPostCatalogue->follow : 0) == $key ? 'selected' : '' }}
+                                value="{{ $key }}" value="{{ $key }}">{{ $val }}</option>
                         @endforeach
                     </select>
                 </div>
